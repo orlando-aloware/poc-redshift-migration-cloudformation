@@ -4,7 +4,7 @@ provider "aws" {
 
 # Import the IAM role created by CloudFormation
 resource "aws_iam_role" "redshift_role" {
-  name = "redshift-test-stack-RedshiftIAMRole-1VDwx4b14KMD"
+  name = "redshift-test-stack-RedshiftIAMRole-VhvtypD3sjhl"
   
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
