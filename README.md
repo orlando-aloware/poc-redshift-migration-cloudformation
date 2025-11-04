@@ -31,11 +31,11 @@ aws cloudformation create-stack \
   --stack-name redshift-test-stack \
   --template-body file://redshift-cluster.yaml \
   --capabilities CAPABILITY_NAMED_IAM \
-  --region us-east-1 \
+  --region us-east-2 \
   --parameters \
     ParameterKey=ClusterIdentifier,ParameterValue=redshift-test-cluster \
     ParameterKey=MasterUsername,ParameterValue=awsuser \
-    ParameterKey=MasterUserPassword,ParameterValue=YourSecurePassword123
+    ParameterKey=MasterUserPassword,ParameterValue=TestPass123
 ```
 
 ### 2. Wait for Stack Creation
@@ -43,7 +43,7 @@ aws cloudformation create-stack \
 ```bash
 aws cloudformation wait stack-create-complete \
   --stack-name redshift-test-stack \
-  --region us-east-1
+  --region us-east-2
 ```
 
 ### 3. Get Connection Details
@@ -51,7 +51,7 @@ aws cloudformation wait stack-create-complete \
 ```bash
 aws cloudformation describe-stacks \
   --stack-name redshift-test-stack \
-  --region us-east-1 \
+  --region us-east-2 \
   --query 'Stacks[0].Outputs'
 ```
 
@@ -100,7 +100,7 @@ MY_IP=$(curl -s https://checkip.amazonaws.com)
 # Get the security group ID
 SG_ID=$(aws redshift describe-clusters \
   --cluster-identifier redshift-test-cluster \
-  --region us-east-1 \
+  --region us-east-2 \
   --query 'Clusters[0].VpcSecurityGroups[0].VpcSecurityGroupId' \
   --output text)
 
@@ -110,7 +110,7 @@ aws ec2 authorize-security-group-ingress \
   --protocol tcp \
   --port 5439 \
   --cidr ${MY_IP}/32 \
-  --region us-east-1
+  --region us-east-2
 ```
 
 ## Delete the Stack
@@ -120,7 +120,7 @@ aws ec2 authorize-security-group-ingress \
 ```bash
 aws cloudformation delete-stack \
   --stack-name redshift-test-stack \
-  --region us-east-1
+  --region us-east-2
 ```
 
 ## Customization
@@ -144,7 +144,7 @@ The template creates:
 ```bash
 aws cloudformation describe-stack-events \
   --stack-name redshift-test-stack \
-  --region us-east-1 \
+  --region us-east-2 \
   --max-items 10
 ```
 
@@ -152,7 +152,7 @@ aws cloudformation describe-stack-events \
 ```bash
 aws redshift describe-clusters \
   --cluster-identifier redshift-test-cluster \
-  --region us-east-1
+  --region us-east-2
 ```
 
 ### Connection Issues
